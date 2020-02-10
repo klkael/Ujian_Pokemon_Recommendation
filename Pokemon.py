@@ -16,11 +16,14 @@ def home():
 def hasil():
     namapoke = request.form
     namapokemon = request.form['Poke']
+    df = pd.read_csv('Pokemon.csv')
     listpoke = df['Name'].tolist()
+    indexgambar = df['#'][df['Name']==namapokemon]
+    indexgambarr = np.array(indexgambar)[0]
     if namapokemon not in listpoke:
         return render_template('error.html')
     else:
-        return render_template('pokemon.html',df=df,namapokemon=namapokemon,pokemon_lain=pokemon_lain)
+        return render_template('pokemon.html',df=df,namapokemon=namapokemon,pokemon_lain=pokemon_lain,indexgambarr=indexgambarr, index_pokemon_lain=index_pokemon_lain)
 
 
 if __name__ == '__main__':
@@ -43,6 +46,7 @@ if __name__ == '__main__':
     rekomenpokelain = sorted(list(enumerate(cos_score[index])),key=lambda x:x[1],reverse=True)
     
     pokemon_lain = []
+    index_pokemon_lain = []
 
     for i in rekomenpokelain:
         pokeee = {}
@@ -61,5 +65,15 @@ if __name__ == '__main__':
         pokemon_lain.append(pokeee)
         if len(pokemon_lain) == 6:
             break
+    
+    # print(pokemon_lain)
+    df = pd.read_csv('Pokemon.csv')
+    for items in pokemon_lain :
+        pokerekomen = items['name']
+        indexgambar = df['#'][df['Name']==pokerekomen]
+        indexgambarrre = np.array(indexgambar)[0]
+        index_pokemon_lain.append(indexgambarrre)
+    
+        
     
     app.run(debug=True,port=5000)
