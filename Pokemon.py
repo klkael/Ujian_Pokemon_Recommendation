@@ -37,6 +37,8 @@ if __name__ == '__main__':
     cos_score = cosine_similarity(rekomen)
     pokee = input('nama pokemon')
     index = df[df['Name']==pokee.capitalize()].index.values[0]
+    # harus input nama pokemon sesuai di df buat buka server "Raichu", "Pikachu","Magnemite"
+    #bingung error dimana
     
     rekomenpokelain = sorted(list(enumerate(cos_score[index])),key=lambda x:x[1],reverse=True)
     
@@ -60,4 +62,4 @@ if __name__ == '__main__':
         if len(pokemon_lain) == 6:
             break
     
-    app.run(debug=True)
+    app.run(debug=True,port=5000)
